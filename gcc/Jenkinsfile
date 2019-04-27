@@ -25,7 +25,16 @@ pipeline {
     }
 
     stages {
+        // this is needed to generate a changelog for changeset conditionals below
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
         stage('LF Prep') {
+            when { changeset "gcc/*" }
+
             steps {
                 edgeXSetupEnvironment()
                 edgeXDockerLogin(settingsFile: env.MVN_SETTINGS)
@@ -33,6 +42,8 @@ pipeline {
         }
 
         stage('Build Docker Image') {
+            when { changeset "gcc/*" }
+
             parallel {
                 stage('Build amd64') {
                     agent {
@@ -57,7 +68,7 @@ pipeline {
                     }
                     steps {
                         script {
-                            docker.withRegistry("https://${env.DOCKER_REGISTRY}:10003") {
+                            docker.withRegistry("https://${env.DOCKER_REGISTRY}:10004") {
                                 image_arm64 = docker.build('edgex-gcc-base', '-f gcc/Dockerfile ./gcc')
                                 
                                 image_arm64.tag("arm64")
@@ -71,10 +82,11 @@ pipeline {
         }
 
         stage('Push Docker Image') {
-            when { expression { edgex.isReleaseStream() } }
+            when { allOf { changeset 'gcc/*'; expression { edgex.isReleaseStream() } } }
+
             steps {
                 script {
-                    docker.withRegistry("https://${env.DOCKER_REGISTRY}:10002") {
+                    docker.withRegistry("https://${env.DOCKER_REGISTRY}:10004") {
                         image_amd64.push()
                         image_arm64.push()
                     }
