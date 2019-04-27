@@ -25,6 +25,8 @@ pipeline {
 
     stages {
         stage('LF Prep') {
+            when { changeset "kong/*" }
+
             steps {
                 edgeXSetupEnvironment()
                 edgeXDockerLogin(settingsFile: env.MVN_SETTINGS)
@@ -32,6 +34,8 @@ pipeline {
         }
 
         stage('Build Docker Image') {
+            when { changeset "kong/*" }
+
             steps {
                 sh 'docker run --rm --privileged multiarch/qemu-user-static:register --reset'
 
@@ -48,10 +52,11 @@ pipeline {
         }
 
         stage('Push Docker Image') {
-            when { expression { edgex.isReleaseStream() } }
+            when { allOf { changeset 'kong/*'; expression { edgex.isReleaseStream() } } }
+
             steps {
                 script {
-                    docker.withRegistry("https://${env.DOCKER_REGISTRY}:10002") {
+                    docker.withRegistry("https://${env.DOCKER_REGISTRY}:10004") {
                         image.push()
                     }
                 }

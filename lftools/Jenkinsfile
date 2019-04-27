@@ -25,6 +25,8 @@ pipeline {
 
     stages {
         stage('LF Prep') {
+            when { changeset "lftools/*" }
+
             steps {
                 edgeXSetupEnvironment()
                 edgeXDockerLogin(settingsFile: env.MVN_SETTINGS)
@@ -32,9 +34,11 @@ pipeline {
         }
 
         stage('Build Docker Image') {
+            when { changeset "lftools/*" }
+
             steps {
                 script {
-                    docker.withRegistry("https://${env.DOCKER_REGISTRY}:10003") {
+                    docker.withRegistry("https://${env.DOCKER_REGISTRY}:10004") {
                         image_amd64 = docker.build('edgex-lftools', '-f lftools/Dockerfile .')
                         
                         image_amd64.tag("latest")
@@ -46,10 +50,11 @@ pipeline {
         }
 
         stage('Push Docker Image') {
-            when { expression { edgex.isReleaseStream() } }
+            when { allOf { changeset 'lftools/*'; expression { edgex.isReleaseStream() } } }
+
             steps {
                 script {
-                    docker.withRegistry("https://${env.DOCKER_REGISTRY}:10002") {
+                    docker.withRegistry("https://${env.DOCKER_REGISTRY}:10004") {
                         image_amd64.push()
                     }
                 }
