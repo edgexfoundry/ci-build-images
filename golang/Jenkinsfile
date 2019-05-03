@@ -20,6 +20,7 @@ def image_amd64
 def image_arm64
 def changeDetected
 
+// Begin pipeline script here
 pipeline {
     agent {
         label 'centos7-docker-4c-2g'
