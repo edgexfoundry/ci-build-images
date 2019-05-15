@@ -42,7 +42,9 @@ pipeline {
                 sh 'docker run --rm --privileged multiarch/qemu-user-static:register --reset'
 
                 script {
-                    image = docker.build('kong-arm', '-f kong/Dockerfile ./kong')
+                    docker.withRegistry("https://${env.DOCKER_REGISTRY}:10004") {
+                        image = docker.build('kong-arm', "--build-arg DOCKER_REGISTRY=${env.DOCKER_REGISTRY}:10004 -f kong/Dockerfile ./kong")
+                    }
                 }
             }
         }
