@@ -24,6 +24,10 @@ pipeline {
         label 'centos7-docker-4c-2g'
     }
 
+    options {
+        timestamps()
+    }
+
     stages {
         stage('LF Prep') {
             steps {
@@ -40,7 +44,7 @@ pipeline {
             when { expression { changeDetected } }
             steps {
                 script {
-                    image_amd64 = docker.build('edgex-lftools', '-f lftools/Dockerfile .')
+                    image_amd64 = docker.build('edgex-lftools', '-f lftools/Dockerfile ./lftools')
                 }
             }
         }
