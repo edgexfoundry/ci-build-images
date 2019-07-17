@@ -39,6 +39,19 @@ pipeline {
                 script {
                     image_amd64 = docker.build('edgex-sonarqube', '-f sonarqube/Dockerfile ./sonarqube')
                 }
+
+                stage('Docker Push') {
+                    when { expression { edgex.isReleaseStream() } }
+                    steps {
+                        script {
+                            docker.withRegistry("https://${env.DOCKER_REGISTRY}:10003") {
+                                image_amd64.push("latest")
+                                image_amd64.push(env.GIT_COMMIT)
+                                image_amd64.push(env.BUILD_NUMBER)
+                            }
+                        }
+                    }
+                }
             }
         }
     }
