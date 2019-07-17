@@ -43,7 +43,7 @@ pipeline {
                         edgeXDockerLogin(settingsFile: env.MVN_SETTINGS)
 
                         script {
-                            image_amd64 = docker.build('edgex-sonarqube', '-f sonarqube/Dockerfile ./sonarqube')
+                            image_amd64 = docker.build('sonarqube', '-f sonarqube/Dockerfile ./sonarqube')
                         }
                     }
                 }
