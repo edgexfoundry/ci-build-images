@@ -35,9 +35,15 @@ pipeline {
         }
 
         stage('Build Docker Image') {
-            steps {
-                script {
-                    image_amd64 = docker.build('edgex-sonarqube', '-f sonarqube/Dockerfile ./sonarqube')
+            stages {
+                stage('Docker Build') {
+                    steps {
+                        edgeXDockerLogin(settingsFile: env.MVN_SETTINGS)
+
+                        script {
+                            image_amd64 = docker.build('edgex-sonarqube', '-f sonarqube/Dockerfile ./sonarqube')
+                        }
+                    }
                 }
 
                 stage('Docker Push') {
