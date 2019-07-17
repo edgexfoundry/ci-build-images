@@ -15,7 +15,7 @@ LABEL license='SPDX-License-Identifier: Apache-2.0' \
   maintainer="Ernesto Ojeda <ernesto.ojeda@intel.com>"
 
 RUN apk add --update --no-cache \
-  build-base openssl-dev libffi-dev linux-headers xmlstarlet
+  build-base openssl-dev libffi-dev linux-headers xmlstarlet bash
 
 RUN pip3 install --no-cache-dir --upgrade pip setuptools \
   && pip3 install --no-cache-dir -I lftools[openstack]==0.23.1 \

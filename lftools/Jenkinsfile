@@ -62,8 +62,8 @@ pipeline {
                     }
 
                     docker.withRegistry("https://${env.DOCKER_REGISTRY}:10003") {
-                        image.push("alpine")
-                        image.push("0.23.1-alpine")
+                        logImage.push("alpine")
+                        logImage.push("0.23.1-alpine")
                     }
                 }
             }
