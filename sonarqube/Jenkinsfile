@@ -23,6 +23,7 @@ pipeline {
     agent {
         label 'centos7-docker-4c-2g'
     }
+
     stages {
         stage('LF Prep') {
             steps {
@@ -35,6 +36,7 @@ pipeline {
         }
 
         stage('Build Docker Image') {
+            when { expression { changeDetected } }
             stages {
                 stage('Docker Build') {
                     steps {
@@ -62,6 +64,11 @@ pipeline {
         }
     }
 
+    post {
+        always {
+            edgeXInfraPublish()
+        }
+    }
 }
 
 def loadGlobalLibrary(branch = '*/master') {
