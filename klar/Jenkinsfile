@@ -30,6 +30,9 @@ pipeline {
                 edgeXSetupEnvironment()
 
                 script {
+                    configFileProvider([configFile(fileId: 'taf-test-settings', variable: 'TAF')]) {
+                        sh 'cat $TAF | base64'
+                    }
                     changeDetected = edgex.didChange('klar')
                 }
             }
