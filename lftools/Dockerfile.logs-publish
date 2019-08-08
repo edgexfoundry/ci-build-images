@@ -17,7 +17,17 @@ LABEL license='SPDX-License-Identifier: Apache-2.0' \
   maintainer="Ernesto Ojeda <ernesto.ojeda@intel.com>"
 
 RUN apk add --update --no-cache \
-  build-base openssl-dev libffi-dev linux-headers xmlstarlet bash git
+  build-base openssl-dev libffi-dev linux-headers xmlstarlet bash git util-linux
+
+# LF hosts run specific version of sysstat (sar) and lftools deploy logs
+# requires sysstat version to be same between container and host in order
+# for container to process sar reports on host
+RUN apkArch="$(apk --print-arch)"; \
+    case "$apkArch" in \
+        aarch64) apk add --no-cache sysstat ;; \
+        x86_64) apk add --no-cache --repository http://nl.alpinelinux.org/alpine/v2.6/main sysstat=10.1.5-r0 ;; \
+        *) echo >&2 "error: unsupported architecture ($apkArch)"; exit 1 ;; \
+    esac;
 
 RUN pip3 install --no-cache-dir --upgrade pip setuptools \
   && pip3 install --no-cache-dir -I lftools[openstack]==0.23.1 \

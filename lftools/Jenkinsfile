@@ -61,7 +61,7 @@ pipeline {
                         }
 
                         stage('Docker Push') {
-                            when { expression { edgex.isReleaseStream() } }
+                            // when { expression { edgex.isReleaseStream() } }
                             steps {
                                 script {
                                     docker.withRegistry("https://${env.DOCKER_REGISTRY}:10003") {
@@ -71,10 +71,11 @@ pipeline {
                                     }
 
                                     docker.withRegistry("https://${env.DOCKER_REGISTRY}:10003") {
-                                        logImage_amd64.push("alpine")
-                                        logImage_amd64.push("0.23.1-alpine")
-                                        logImage_amd64.push("amd64")
-                                        logImage_amd64.push("x86_64")
+                                        // logImage_amd64.push("alpine")
+                                        // logImage_amd64.push("0.23.1-alpine")
+                                        // logImage_amd64.push("amd64")
+                                        // logImage_amd64.push("x86_64")
+                                        logImage_amd64.push("x86_64_bug459")
                                     }
                                 }
                             }
@@ -98,12 +99,13 @@ pipeline {
                         }
 
                         stage('Docker Push') {
-                            when { expression { edgex.isReleaseStream() } }
+                            // when { expression { edgex.isReleaseStream() } }
                             steps {
                                 script {
                                     docker.withRegistry("https://${env.DOCKER_REGISTRY}:10003") {
-                                        logImage_arm64.push("arm64")
-                                        logImage_arm64.push("aarch64")
+                                        // logImage_arm64.push("arm64")
+                                        // logImage_arm64.push("aarch64")
+                                        logImage_arm64.push("aarch64_bug459")
                                     }
                                 }
                             }
