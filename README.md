@@ -13,3 +13,4 @@ This repository contains Docker images used within the EdgeX Jenkins pipeline pr
 - [edgex-docs](edgex-docs/Dockerfile)
 - [jq](jq/Dockerfile)
 - [sonarqube](sonarqube/Dockerfile)
+- [snyk](snyk/Dockerfile)
