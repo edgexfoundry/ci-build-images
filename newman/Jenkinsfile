@@ -14,112 +14,13 @@
 // limitations under the License.
 //
 
-loadGlobalLibrary()
+edgeXBuildDocker (
+    project: 'edgex-newman',
+    mavenSettings: 'ci-build-images-settings',
+    dockerImageName: 'edgex-newman',
+    dockerNamespace: 'edgex-devops',
+    dockerBuildArgs: ['NEWMAN_VERSION=4.5.6'],
+    dockerNexusRepo: 'snapshots',
+    dockerTags: ["4.5.6"]
+)
 
-def image_amd64
-def image_arm64
-def changeDetected
-
-pipeline {
-    agent {
-        label 'centos7-docker-4c-2g'
-    }
-
-    stages {
-        stage('LF Prep') {
-            steps {
-                edgeXSetupEnvironment()
-                script {
-                    changeDetected = edgex.didChange('newman')
-                    println "Detected Change in newman? ${changeDetected}"
-                }
-            }
-        }
-
-        stage('Build Docker Image') {
-            when { expression { changeDetected } }
-            parallel {
-                stage('amd64') {
-                    agent {
-                        label 'centos7-docker-4c-2g'
-                    }
-                    stages {
-                        stage('Docker Build') {
-                            steps {
-                                edgeXDockerLogin(settingsFile: env.MVN_SETTINGS)
-
-                                script {
-                                    image_amd64 = docker.build('edgex-newman', '--build-arg NEWMAN_VERSION=4.5.6 -f newman/Dockerfile ./newman')
-                                }
-                            }
-                        }
-
-                        stage('Docker Push') {
-                            when { expression { edgex.isReleaseStream() } }
-                            steps {
-                                script {
-                                    docker.withRegistry("https://${env.DOCKER_REGISTRY}:10003") {
-                                        image_amd64.push("amd64")
-                                        image_amd64.push(env.GIT_COMMIT)
-                                        image_amd64.push("4.5.6")
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                stage('arm64') {
-                    agent {
-                        label 'ubuntu18.04-docker-arm64-4c-2g'
-                    }
-                    stages {
-                        stage('Docker Build') {
-                            steps {
-                                edgeXDockerLogin(settingsFile: env.MVN_SETTINGS)
-
-                                script {
-                                    image_arm64 = docker.build('edgex-newman', '--build-arg NEWMAN_VERSION=4.5.6 -f newman/Dockerfile ./newman')
-                                }
-                            }
-                        }
-
-                        stage('Docker Push') {
-                            when { expression { edgex.isReleaseStream() } }
-                            steps {
-                                script {
-                                    docker.withRegistry("https://${env.DOCKER_REGISTRY}:10003") {
-                                        image_arm64.push("arm64")
-                                        image_arm64.push("${env.GIT_COMMIT}-arm64")
-                                        image_arm64.push("4.5.6-arm64")
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    post {
-        always {
-            edgeXInfraPublish()
-        }
-    }
-}
-
-def loadGlobalLibrary(branch = '*/master') {
-    library(identifier: 'edgex-global-pipelines@master', 
-        retriever: legacySCM([
-            $class: 'GitSCM',
-            userRemoteConfigs: [[url: 'https://github.com/edgexfoundry/edgex-global-pipelines.git']],
-            branches: [[name: branch]],
-            doGenerateSubmoduleConfigurations: false,
-            extensions: [[
-                $class: 'SubmoduleOption',
-                recursiveSubmodules: true,
-            ]]]
-        )
-    ) 
-}
