@@ -59,12 +59,12 @@ pipeline {
                                     docker.withRegistry("https://${env.DOCKER_REGISTRY}:10003") {
                                         image.push("latest")
                                         image.push(env.GIT_COMMIT)
-                                        image.push("0.23.1-centos7")
+                                        image.push("0.31.0-centos7")
                                     }
 
                                     docker.withRegistry("https://${env.DOCKER_REGISTRY}:10003") {
                                         logImage_amd64.push("alpine")
-                                        logImage_amd64.push("0.23.1-alpine")
+                                        logImage_amd64.push("0.31.0-alpine")
                                         logImage_amd64.push("amd64")
                                         logImage_amd64.push("x86_64")
                                     }
@@ -76,7 +76,7 @@ pipeline {
 
                 stage('arm64') {
                     agent {
-                        label 'ubuntu18.04-docker-arm64-4c-2g'
+                        label 'ubuntu18.04-docker-arm64-4c-16g'
                     }
                     stages {
                         stage('Docker Build') {
@@ -108,7 +108,7 @@ pipeline {
         stage('Clair Image Scan') {
             when { expression { env.GIT_BRANCH == 'lftools' } }
             steps {
-                edgeXClair("${env.DOCKER_REGISTRY}:10003/edgex-lftools:0.23.1-centos7")
+                edgeXClair("${env.DOCKER_REGISTRY}:10003/edgex-lftools:0.31.0-centos7")
                 edgeXClair("${env.DOCKER_REGISTRY}:10003/edgex-lftools-log-publisher:amd64")
                 edgeXClair("${env.DOCKER_REGISTRY}:10003/edgex-lftools-log-publisher:arm64")
             }
