@@ -7,7 +7,7 @@ RUN yum install -y libxml2 libxslt \
   -o /tmp/xmlstarlet-1.6.1-1.el7.x86_64.rpm \
   && rpm -Uvh /tmp/xmlstarlet-1.6.1-1.el7.x86_64.rpm
 
-RUN yum install -y git python python-devel make automake gcc kernel-devel sudo sigul \
+RUN yum install -y git python3 python3-devel make automake gcc kernel-devel sudo sigul \
   && yum clean all \
   && rm -rf /var/cache/yum
 
