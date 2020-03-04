@@ -10,6 +10,8 @@ RUN yum install -y libxml2 libxslt \
 RUN yum install -y git python3 python3-devel make automake gcc kernel-devel sudo sigul \
   && yum clean all \
   && rm -rf /var/cache/yum \
+  # https://stackoverflow.com/questions/11213520/yum-crashed-with-keyboard-interrupt-error
+  && sed -i 's|/usr/bin/python|/usr/bin/python2|g' /usr/bin/yum \
   && alternatives --install /usr/bin/python python /usr/bin/python3 60 \
   && python --version
 
