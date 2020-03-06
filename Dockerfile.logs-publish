@@ -30,7 +30,7 @@ RUN apkArch="$(apk --print-arch)"; \
     esac;
 
 RUN pip3 install --no-cache-dir --upgrade pip setuptools \
-  && pip3 install --no-cache-dir -I lftools[openstack]==0.31.0 \
+  && pip3 install --no-cache-dir -I lftools[openstack]==0.31.1 \
   && apk del build-base linux-headers
 
 RUN git clone https://github.com/lfit/releng-global-jjb.git global-jjb
