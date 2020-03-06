@@ -2,6 +2,10 @@ FROM centos:7
 
 COPY ./fedora-infra-sigul.repo /etc/yum.repos.d/
 
+# required for lftools to work
+ENV LC_ALL=en_US.utf-8 \
+  LANG=en_US.utf-8
+
 RUN yum install -y libxml2 libxslt \
   && curl -s https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/x/xmlstarlet-1.6.1-1.el7.x86_64.rpm \
   -o /tmp/xmlstarlet-1.6.1-1.el7.x86_64.rpm \
