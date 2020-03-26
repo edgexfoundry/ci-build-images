@@ -21,6 +21,6 @@ edgeXBuildDocker (
     dockerImageName: 'egp-unit-test',
     dockerNamespace: 'edgex-devops',
     dockerNexusRepo: 'snapshots',
-    dockerTags: ['latest'],
+    dockerTags: ['gradle'],
     releaseBranchOverride: 'egp-unit-test'
 )
