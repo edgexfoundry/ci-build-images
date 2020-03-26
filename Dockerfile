@@ -25,6 +25,6 @@ RUN tar -xzf ${EGP_VERSION}.tar.gz \
 RUN gradle -Dgradle.user.home=${USER_GRADLE_HOME} testClasses
 
 # Only copy the .gradle where all the dependencies are
-FROM gradle:6.0
+FROM gradle:6.2
 ENV USER_GRADLE_HOME=/gradleCache
 COPY --from=builder ${USER_GRADLE_HOME} ${USER_GRADLE_HOME}
