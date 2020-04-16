@@ -13,6 +13,8 @@ export SNAPCRAFT_BUILD_INFO=1
 # to send a report.
 export SNAPCRAFT_ENABLE_SILENT_REPORT=1
 
+apt-get update
+
 case "$JOB_TYPE" in 
     "stage")
         # Stage jobs build the snap locally and release it
