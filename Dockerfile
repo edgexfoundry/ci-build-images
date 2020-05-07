@@ -4,14 +4,14 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-FROM golang:1.12-alpine
+FROM golang:1.13-alpine
 
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
       copyright='Copyright (c) 2019: Intel'
 
 RUN sed -e 's/dl-cdn[.]alpinelinux.org/nl.alpinelinux.org/g' -i~ /etc/apk/repositories
 
-ARG SNYK_VERSION=1.217.3
+ARG SNYK_VERSION=1.317.0
 ENV SNYK_VERSION=${SNYK_VERSION}
 
 COPY --from=docker:latest /usr/local/bin/docker /usr/local/bin/docker
