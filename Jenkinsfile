@@ -20,7 +20,5 @@ edgeXBuildDocker (
     dockerImageName: 'edgex-snap-builder',
     dockerNamespace: 'edgex-devops',
     dockerNexusRepo: 'snapshots',
-    dockerPushLatest: false,
-    dockerTags: ['new-snap-updates'],
     releaseBranchOverride: 'snapcraft-builder'
 )
