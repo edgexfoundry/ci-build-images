@@ -39,7 +39,7 @@ RUN apt-get update && \
     apt remove --yes --purge curl jq squashfs-tools && \
     apt-get autoclean --yes && \
     apt-get clean --yes && \
-    apt-get install snapd --yes
+    apt-get install snapd expect --yes
 
 # The upstream dockerfile just uses this file locally from the repo since it's
 # in the same build context, but rather than copy that file here into the 
