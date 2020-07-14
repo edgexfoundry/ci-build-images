@@ -14,25 +14,32 @@ ARG ARCH
 # We do this because we can't easily run snapd (and thus snaps) inside a 
 # docker container without disabling important security protections enabled 
 # for docker containers.
+# Note that now snapcraft depends on snapd for the "snap pack" command, so we 
+# have to also install snapd as an apt package, even though snapd is not 
+# functional inside the docker container, we do this last so it doesn't get 
+# cleaned up
 # TODO: add a little bit of error checking for the curl calls in case we ever
 # are on a proxy or something and we end up downloading a login page or
 # or something like that
 RUN apt-get update && \
-  apt-get dist-upgrade --yes && \
-  apt-get install --yes \
-  curl sudo jq squashfs-tools && \
-  for thesnap in core core18 snapcraft; do \
-  dlUrl=$(curl -s -H 'X-Ubuntu-Series: 16' -H "X-Ubuntu-Architecture: $ARCH" "https://api.snapcraft.io/api/v1/snaps/details/$thesnap" | jq '.download_url' -r); \
-  dlSHA=$(curl -s -H 'X-Ubuntu-Series: 16' -H "X-Ubuntu-Architecture: $ARCH" "https://api.snapcraft.io/api/v1/snaps/details/$thesnap" | jq '.download_sha512' -r); \
-  curl -s -L $dlUrl --output $thesnap.snap; \
-  echo "$dlSHA $thesnap.snap"; \
-  echo "$dlSHA $thesnap.snap" > $thesnap.snap.sha512; \
-  sha512sum -c $thesnap.snap.sha512; \
-  mkdir -p /snap/$thesnap && unsquashfs -n -d /snap/$thesnap/current $thesnap.snap && rm $thesnap.snap; \
-  done && \
-  apt remove --yes --purge curl jq squashfs-tools && \
-  apt-get autoclean --yes && \
-  apt-get clean --yes
+    apt-get dist-upgrade --yes && \
+    apt-get install --yes \
+    curl sudo jq squashfs-tools && \
+    for thesnap in core core18 snapcraft; do \
+        dlUrl=$(curl -s -H 'X-Ubuntu-Series: 16' -H "X-Ubuntu-Architecture: $ARCH" "https://api.snapcraft.io/api/v1/snaps/details/$thesnap" | jq '.download_url' -r) && \
+        dlSHA=$(curl -s -H 'X-Ubuntu-Series: 16' -H "X-Ubuntu-Architecture: $ARCH" "https://api.snapcraft.io/api/v1/snaps/details/$thesnap" | jq '.download_sha512' -r) && \
+        curl -s -L $dlUrl --output $thesnap.snap && \
+        echo "$dlSHA $thesnap.snap" > $thesnap.snap.sha512 && \
+        sha512sum -c $thesnap.snap.sha512 && \
+        mkdir -p /snap/$thesnap && \
+        unsquashfs -n -d /snap/$thesnap/current $thesnap.snap && \
+        rm $thesnap.snap.sha512 && \
+        rm $thesnap.snap; \
+    done && \
+    apt remove --yes --purge curl jq squashfs-tools && \
+    apt-get autoclean --yes && \
+    apt-get clean --yes && \
+    apt-get install snapd --yes
 
 # The upstream dockerfile just uses this file locally from the repo since it's
 # in the same build context, but rather than copy that file here into the 
