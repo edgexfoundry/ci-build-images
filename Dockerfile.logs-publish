@@ -45,12 +45,18 @@ RUN apk add --update --no-cache \
   build-base openssl-dev libxml2-dev \
   libxslt-dev libffi-dev linux-headers \
   xmlstarlet bash git util-linux sysstat \
+  sudo jq bash curl \
+
+  && adduser --uid 1001 jenkins --disabled-password \
+
+  # This is a no-op shell script only meant to mimick the facter operatingsystem command
+  && echo "IyEvYmluL3NoCgpjYXQgL2ZhY3Rlci1vcw==" | base64 -d > /usr/bin/facter \
+  && chmod +x /usr/bin/facter \
 
   && pip3 install --no-cache-dir --upgrade pip setuptools \
   && pip3 install --no-cache-dir -I lftools[openstack]==0.31.1 \
+  && pip3 install --no-cache-dir zipp==1.1.0 python-openstackclient \
 
   && git clone https://github.com/lfit/releng-global-jjb.git global-jjb \
   && cd global-jjb \
-  && git reset --hard ${GLOBAL_JJB_COMMIT} \
-
-  && apk del git build-base linux-headers
+  && git reset --hard ${GLOBAL_JJB_COMMIT}
