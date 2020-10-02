@@ -36,6 +36,9 @@ COPY --from=mktempbuilder /usr/local/bin/mktemp /usr/local/bin/mktemp
 # https://github.com/pypa/setuptools/issues/2355
 ENV SETUPTOOLS_USE_DISTUTILS="stdlib"
 
+# Needed for certain lf scripts
+COPY ./lf-env.sh /root/lf-env.sh
+
 # LF hosts run specific version of sysstat (sar) and `lftools deploy logs`
 # requires sysstat version to be same between container and host in order
 # for container to process sar reports on host. However, there is a technique
