@@ -11,7 +11,7 @@ LABEL license='SPDX-License-Identifier: Apache-2.0' \
 
 RUN sed -e 's/dl-cdn[.]alpinelinux.org/nl.alpinelinux.org/g' -i~ /etc/apk/repositories
 
-ARG SNYK_VERSION=1.419.1
+ARG SNYK_VERSION=1.410.4
 ENV SNYK_VERSION=${SNYK_VERSION}
 
 COPY --from=docker:latest /usr/local/bin/docker /usr/local/bin/docker
