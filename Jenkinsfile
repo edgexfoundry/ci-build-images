@@ -21,6 +21,6 @@ edgeXBuildDocker (
     dockerImageName: 'edgex-snyk-go',
     dockerNamespace: 'edgex-devops',
     dockerNexusRepo: 'snapshots',
-    dockerTags: ["1.419.1"],
+    dockerTags: ["1.410.4"],
     releaseBranchOverride: 'snyk'
 )
