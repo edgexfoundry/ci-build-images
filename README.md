@@ -1,4 +1,6 @@
 # ci-build-image
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr-raw/edgexfoundry/ci-build-images)](https://github.com/edgexfoundry/ci-build-images/pulls) [![GitHub Contributors](https://img.shields.io/github/contributors/edgexfoundry/ci-build-images)](https://github.com/edgexfoundry/ci-build-images/contributors) [![GitHub Committers](https://img.shields.io/badge/team-committers-green)](https://github.com/orgs/edgexfoundry/teams/devops-core-team/members) [![GitHub Commit Activity](https://img.shields.io/github/commit-activity/m/edgexfoundry/ci-build-images)](https://github.com/edgexfoundry/ci-build-images/commits)
+
 
 This repository contains Docker images used within the EdgeX Jenkins pipeline projects which are managed in respective branches.
 
