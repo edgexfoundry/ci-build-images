@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-FROM golang:1.16.3-alpine3.13
+FROM golang:1.16.5-alpine3.13
 
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
       copyright='Copyright (c) 2020: Intel Corporation'
