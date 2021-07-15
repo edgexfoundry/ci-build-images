@@ -39,7 +39,7 @@ pipeline {
             parallel {
                 stage('amd64') {
                     agent {
-                        label 'centos7-docker-4c-2g'
+                        label 'centos7-docker-8c-8g'
                     }
                     stages {
                         stage('Docker Build') {
@@ -56,15 +56,15 @@ pipeline {
                             when { expression { env.GIT_BRANCH == 'lftools' } }
                             steps {
                                 script {
-                                    docker.withRegistry("https://${env.DOCKER_REGISTRY}:10003") {
+                                    docker.withRegistry("https://${env.DOCKER_REGISTRY}:10003/edgex-devops") {
                                         image.push("latest")
                                         image.push(env.GIT_COMMIT)
                                         image.push("0.31.1-centos7")
                                     }
 
-                                    docker.withRegistry("https://${env.DOCKER_REGISTRY}:10003") {
-                                        logImage_amd64.push("alpine")
-                                        logImage_amd64.push("0.31.1-alpine")
+                                    docker.withRegistry("https://${env.DOCKER_REGISTRY}:10003/edgex-devops") {
+                                        logImage_amd64.push("latest")
+                                        logImage_amd64.push("0.31.1-slim")
                                         logImage_amd64.push("amd64")
                                         logImage_amd64.push("x86_64")
                                     }
@@ -92,7 +92,7 @@ pipeline {
                             when { expression { env.GIT_BRANCH == 'lftools' } }
                             steps {
                                 script {
-                                    docker.withRegistry("https://${env.DOCKER_REGISTRY}:10003") {
+                                    docker.withRegistry("https://${env.DOCKER_REGISTRY}:10003/edgex-devops") {
                                         logImage_arm64.push("arm64")
                                         logImage_arm64.push("aarch64")
                                     }

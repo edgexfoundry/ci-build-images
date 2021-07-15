@@ -8,19 +8,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-# Build gnumktemp in favor of busybox mktemp
-FROM alpine:3.12 as mktempbuilder
-WORKDIR /tmp/build
-RUN apk add --update --no-cache build-base linux-headers
-RUN wget https://www.mktemp.org/dist/mktemp-1.7.tar.gz \
-  && tar -xzvf mktemp-1.7.tar.gz \
-  && cd mktemp-1.7 \
-  && wget "http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD" -O config.guess \
-  && wget "http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD" -O config.sub \
-  && ./configure \
-  && make install
-
-FROM python:3-alpine
+FROM python:3.9-slim
 
 # updating to match EGP v0.60.5
 ARG GLOBAL_JJB_COMMIT=53f811d91411bf26a4acf00a9244c6ea0f4510d5
@@ -28,14 +16,6 @@ ARG GLOBAL_JJB_COMMIT=53f811d91411bf26a4acf00a9244c6ea0f4510d5
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
   copyright='Copyright (c) 2020: Intel' \
   maintainer="Ernesto Ojeda <ernesto.ojeda@intel.com>"
-
-RUN mv /bin/mktemp /bin/mktemp-busybox
-COPY --from=mktempbuilder /usr/local/bin/mktemp /usr/local/bin/mktemp
-
-# Currently a python issue with setuptools, this is a workaround
-# https://github.com/pypa/setuptools/issues/2355
-ENV SETUPTOOLS_USE_DISTUTILS="stdlib"
-ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 
 # Needed for certain lf scripts
 COPY ./lf-env.sh /root/lf-env.sh
@@ -45,11 +25,8 @@ COPY ./lf-env.sh /root/lf-env.sh
 # for container to process sar reports on host. However, there is a technique
 # we can use with sadf to convert between different versions of sar formats.
 # See: https://serverfault.com/questions/757771/how-to-read-sar-file-from-different-ubuntu-system
-RUN apk add --update --no-cache \
-  build-base openssl-dev libxml2-dev \
-  libxslt-dev libffi-dev linux-headers \
-  xmlstarlet bash git util-linux sysstat \
-  sudo jq bash curl \
+RUN apt-get update && apt-get install -y \
+  xmlstarlet git util-linux sysstat sudo jq build-essential \
 
   && adduser --uid 1001 jenkins --disabled-password \
 
@@ -60,6 +37,8 @@ RUN apk add --update --no-cache \
   && pip3 install --no-cache-dir --upgrade pip setuptools \
   && pip3 install --no-cache-dir -I lftools[openstack]==0.31.1 \
   && pip3 install --no-cache-dir zipp==1.1.0 python-openstackclient \
+
+  && apt-get remove -y build-essential && apt autoremove -y \
 
   && git clone https://github.com/lfit/releng-global-jjb.git global-jjb \
   && cd global-jjb \
