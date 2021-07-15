@@ -26,7 +26,7 @@ COPY ./lf-env.sh /root/lf-env.sh
 # we can use with sadf to convert between different versions of sar formats.
 # See: https://serverfault.com/questions/757771/how-to-read-sar-file-from-different-ubuntu-system
 RUN apt-get update && apt-get install -y \
-  xmlstarlet git util-linux sysstat sudo jq build-essential \
+  xmlstarlet git util-linux sysstat sudo jq curl wget build-essential \
 
   && adduser --uid 1001 jenkins --disabled-password \
 
