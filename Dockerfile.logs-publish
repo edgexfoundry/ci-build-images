@@ -20,10 +20,10 @@ RUN wget https://www.mktemp.org/dist/mktemp-1.7.tar.gz \
   && ./configure \
   && make install
 
-FROM python:3.6-alpine
+FROM python:3-alpine
 
-# updating to match EGP v0.55.2
-ARG GLOBAL_JJB_COMMIT=64faafae2362d36e4d5c3e8d5fe6579b9d09cf55
+# updating to match EGP v0.60.5
+ARG GLOBAL_JJB_COMMIT=53f811d91411bf26a4acf00a9244c6ea0f4510d5
 
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
   copyright='Copyright (c) 2020: Intel' \
@@ -35,6 +35,7 @@ COPY --from=mktempbuilder /usr/local/bin/mktemp /usr/local/bin/mktemp
 # Currently a python issue with setuptools, this is a workaround
 # https://github.com/pypa/setuptools/issues/2355
 ENV SETUPTOOLS_USE_DISTUTILS="stdlib"
+ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 
 # Needed for certain lf scripts
 COPY ./lf-env.sh /root/lf-env.sh
