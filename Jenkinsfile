@@ -102,16 +102,6 @@ pipeline {
                     }
                 }
             }
-
-        }
-
-        stage('Clair Image Scan') {
-            when { expression { env.GIT_BRANCH == 'lftools' } }
-            steps {
-                edgeXClair("${env.DOCKER_REGISTRY}:10003/edgex-lftools:0.31.1-centos7")
-                edgeXClair("${env.DOCKER_REGISTRY}:10003/edgex-lftools-log-publisher:amd64")
-                edgeXClair("${env.DOCKER_REGISTRY}:10003/edgex-lftools-log-publisher:arm64")
-            }
         }
     }
 
