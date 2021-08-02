@@ -20,6 +20,6 @@ COPY ./.golangci.yml /etc/.golangci.yml
 RUN if [ $(uname -m) == "x86_64" ]; then wget -O /usr/local/bin/hadolint https://github.com/hadolint/hadolint/releases/download/v${HADOLINT_VERSION}/hadolint-Linux-x86_64 ; chmod +x /usr/local/bin/hadolint; fi
 
 RUN apk add --update --no-cache make git curl bash zeromq-dev libsodium-dev pkgconfig build-base linux-headers musl-dev \
-    && ln -s /bin/touch /usr/bin/touch \
+    #&& ln -s /bin/touch /usr/bin/touch \
     && wget -O- -nv https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v${GOLANGCI_VERSION}
 
