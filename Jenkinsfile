@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+@Library("edgex-global-pipelines@b2dc629956b20c8a69344c2b67dbc2640f7419d6") _
+
 edgeXBuildDocker (
     project: 'edgex-golang-base',
     mavenSettings: 'ci-build-images-settings',
