@@ -1,14 +1,14 @@
 #
-# Copyright (c) 2020
+# Copyright (c) 2021
 # Intel Corporation
 #
 # SPDX-License-Identifier: Apache-2.0
 #
 
-FROM golang:1.16.8-alpine3.13
+FROM golang:1.16.8-alpine3.14
 
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
-      copyright='Copyright (c) 2020: Intel Corporation'
+      copyright='Copyright (c) 2021: Intel Corporation'
 
 RUN sed -e 's/dl-cdn[.]alpinelinux.org/nl.alpinelinux.org/g' -i~ /etc/apk/repositories
 

@@ -19,7 +19,7 @@ edgeXBuildDocker (
     mavenSettings: 'ci-build-images-settings',
     dockerImageName: 'edgex-golang-base',
     dockerNamespace: 'edgex-devops',
-    dockerNexusRepo: 'snapshots',
-    dockerTags: ["1.16-alpine", "1.16-alpine3.13"],
-    releaseBranchOverride: 'golang-1.16'
+    dockerNexusRepo: 'release',
+    dockerTags: ["1.16-alpine-lts", "1.16-alpine3.14-lts"],
+    releaseBranchOverride: 'golang-1.16-lts'
 )
