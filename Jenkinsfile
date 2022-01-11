@@ -20,6 +20,6 @@ edgeXBuildDocker (
     dockerImageName: 'edgex-golang-base',
     dockerNamespace: 'edgex-devops',
     dockerNexusRepo: 'snapshots',
-    dockerTags: ["1.16-alpine", "1.16-alpine3.14"],
-    releaseBranchOverride: 'golang-1.16'
+    dockerTags: ["1.17-alpine", "1.17-alpine3.15"],
+    releaseBranchOverride: 'golang-1.17'
 )
