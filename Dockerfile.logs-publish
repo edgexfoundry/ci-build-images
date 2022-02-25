@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2020
+# Copyright (c) 2022
 # Intel
 #
 # This version of Docker image is being created to ONLY support lftools log
@@ -10,11 +10,11 @@
 
 FROM python:3.9-slim
 
-# updating to match EGP v0.60.5
-ARG GLOBAL_JJB_COMMIT=53f811d91411bf26a4acf00a9244c6ea0f4510d5
+# updating to match EGP v0.64.0
+ARG GLOBAL_JJB_COMMIT=92449c24828b0dbd582637ce3d1d705390da4126
 
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
-  copyright='Copyright (c) 2020: Intel' \
+  copyright='Copyright (c) 2022: Intel' \
   maintainer="Ernesto Ojeda <ernesto.ojeda@intel.com>"
 
 # Needed for certain lf scripts
