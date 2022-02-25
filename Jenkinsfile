@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2019 Intel Corporation
+// Copyright (c) 2022 Intel Corporation
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -46,7 +46,9 @@ pipeline {
                             steps {
                                 script {
                                     edgeXDockerLogin(settingsFile: mavenSettings)
-                                    image = docker.build('edgex-lftools', '-f Dockerfile .')
+                                    // This image is no longer buildable due to centos7 EOL using python 3.6.
+                                    // we need to find an alternative way to build this image.
+                                    // image = docker.build('edgex-lftools', '-f Dockerfile .')
                                     logImage_amd64 = docker.build('edgex-lftools-log-publisher', '-f Dockerfile.logs-publish .')
                                 }
                             }
@@ -56,11 +58,11 @@ pipeline {
                             when { expression { env.GIT_BRANCH == 'lftools' } }
                             steps {
                                 script {
-                                    docker.withRegistry("https://${env.DOCKER_REGISTRY}:10003/edgex-devops") {
-                                        image.push("latest")
-                                        image.push(env.GIT_COMMIT)
-                                        image.push("0.31.1-centos7")
-                                    }
+                                    // docker.withRegistry("https://${env.DOCKER_REGISTRY}:10003/edgex-devops") {
+                                    //     image.push("latest")
+                                    //     image.push(env.GIT_COMMIT)
+                                    //     image.push("0.31.1-centos7")
+                                    // }
 
                                     docker.withRegistry("https://${env.DOCKER_REGISTRY}:10003/edgex-devops") {
                                         logImage_amd64.push("latest")
