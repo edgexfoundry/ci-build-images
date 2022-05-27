@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-FROM golang:1.17.6-alpine3.15
+FROM golang:1.17.7-alpine3.15
 
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
       copyright='Copyright (c) 2020: Intel Corporation'
@@ -23,3 +23,16 @@ RUN apk add --update --no-cache make git curl bash zeromq-dev libsodium-dev pkgc
     && ln -s /bin/touch /usr/bin/touch \
     && wget -O- -nv https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v${GOLANGCI_VERSION}
 
+ARG SPIRE_RELEASE=1.2.1
+
+# build spire from the source in order to be compatible with arch arm64 as well
+WORKDIR /edgex-go/spire-build
+
+RUN wget -q "https://github.com/spiffe/spire/archive/refs/tags/v${SPIRE_RELEASE}.tar.gz" && \
+    tar xv --strip-components=1 -f "v${SPIRE_RELEASE}.tar.gz"
+
+RUN echo "building spire from source..." && \
+    make bin/spire-server bin/spire-agent && \
+    cp bin/spire* /usr/local/bin/
+
+WORKDIR /
