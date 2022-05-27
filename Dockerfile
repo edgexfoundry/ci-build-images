@@ -1,15 +1,13 @@
 #
-# Copyright (c) 2020
+# Copyright (c) 2022
 # Intel
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-FROM golang:1.15-alpine
+FROM golang:1.17-alpine3.15
 
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
-      copyright='Copyright (c) 2019: Intel'
-
-RUN sed -e 's/dl-cdn[.]alpinelinux.org/nl.alpinelinux.org/g' -i~ /etc/apk/repositories
+      copyright='Copyright (c) 2022: Intel'
 
 ARG SNYK_VERSION=1.410.4
 ENV SNYK_VERSION=${SNYK_VERSION}
