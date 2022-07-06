@@ -5,12 +5,11 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-FROM golang:1.17.7-alpine3.15 as spire-base
+FROM golang:1.18.3-alpine3.16 as spire-base
 
-RUN sed -e 's/dl-cdn[.]alpinelinux.org/nl.alpinelinux.org/g' -i~ /etc/apk/repositories
 RUN apk add --update --no-cache make git curl build-base linux-headers musl-dev
 
-ARG SPIRE_RELEASE=1.2.1
+ARG SPIRE_RELEASE=1.3.1
 
 # build spire from the source in order to be compatible with arch arm64 as well
 WORKDIR /edgex-go/spire-build
@@ -22,15 +21,13 @@ RUN echo "building spire from source..." && \
     make bin/spire-server bin/spire-agent && \
     cp bin/spire* /usr/local/bin/
 
-FROM golang:1.17.7-alpine3.15
+FROM golang:1.18.3-alpine3.16
 
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
       copyright='Copyright (c) 2020: Intel Corporation'
 
-RUN sed -e 's/dl-cdn[.]alpinelinux.org/nl.alpinelinux.org/g' -i~ /etc/apk/repositories
-
-ENV HADOLINT_VERSION=2.6.0 \
-    GOLANGCI_VERSION=1.40.1
+ENV HADOLINT_VERSION=2.10.0 \
+    GOLANGCI_VERSION=1.46.2
 
 COPY ./.golangci.yml /etc/.golangci.yml
 
