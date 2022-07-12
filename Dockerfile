@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021
+# Copyright (c) 2022
 # Intel
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -7,9 +7,7 @@
 FROM alpine:3.15
 
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
-      copyright='Copyright (c) 2021: Intel'
-
-RUN sed -e 's/dl-cdn[.]alpinelinux.org/nl.alpinelinux.org/g' -i~ /etc/apk/repositories
+      copyright='Copyright (c) 2022: Intel'
 
 RUN apk add --update --no-cache \
   git build-base cmake linux-headers \
