@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-FROM golang:1.18.3-alpine3.16 as spire-base
+FROM golang:1.18.6-alpine3.16 as spire-base
 
 RUN apk add --update --no-cache make git curl build-base linux-headers musl-dev
 
