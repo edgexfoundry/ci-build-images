@@ -1,11 +1,11 @@
 #
-# Copyright (c) 2020
+# Copyright (c) 2020-2022
 # Intel Corporation
 #
 # SPDX-License-Identifier: Apache-2.0
 #
 
-FROM golang:1.18.6-alpine3.16 as spire-base
+FROM golang:1.18.7-alpine3.16 as spire-base
 
 RUN apk add --update --no-cache make git curl build-base linux-headers musl-dev
 
@@ -21,10 +21,10 @@ RUN echo "building spire from source..." && \
     make bin/spire-server bin/spire-agent && \
     cp bin/spire* /usr/local/bin/
 
-FROM golang:1.18.3-alpine3.16
+FROM golang:1.18.7-alpine3.16
 
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
-      copyright='Copyright (c) 2020: Intel Corporation'
+      copyright='Copyright (c) 2020-2022: Intel Corporation'
 
 ENV HADOLINT_VERSION=2.10.0 \
     GOLANGCI_VERSION=1.46.2
