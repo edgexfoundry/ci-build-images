@@ -9,7 +9,7 @@ FROM golang:1.20.2-alpine3.17 as spire-base
 
 RUN apk add --update --no-cache make git curl build-base linux-headers musl-dev
 
-ARG SPIRE_RELEASE=1.6.1
+ARG SPIRE_RELEASE=1.3.1
 
 # build spire from the source in order to be compatible with arch arm64 as well
 WORKDIR /edgex-go/spire-build
@@ -18,6 +18,7 @@ RUN wget -q "https://github.com/spiffe/spire/archive/refs/tags/v${SPIRE_RELEASE}
     tar xv --strip-components=1 -f "v${SPIRE_RELEASE}.tar.gz"
 
 RUN echo "building spire from source..." && \
+    go version | sed -n -e 's/.*go\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p' > .go-version && \
     make bin/spire-server bin/spire-agent && \
     cp bin/spire* /usr/local/bin/
 
