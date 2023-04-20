@@ -9,7 +9,7 @@ FROM golang:1.20.2-alpine3.17 as spire-base
 
 RUN apk add --update --no-cache make git curl build-base linux-headers musl-dev
 
-ARG SPIRE_RELEASE=1.3.1
+ARG SPIRE_RELEASE=1.6.3
 
 # build spire from the source in order to be compatible with arch arm64 as well
 WORKDIR /edgex-go/spire-build
