@@ -1,15 +1,14 @@
-ARG DOCKER_VERSION=19.03.11
+ARG DOCKER_VERSION=24
 FROM docker:${DOCKER_VERSION} AS docker-cli
 
-FROM alpine:3.11
+FROM alpine:3.16
 
 COPY --from=docker-cli  /usr/local/bin/docker   /usr/local/bin/docker
 
 # https://docs.docker.com/compose/install/#install-compose-on-linux-systems
 RUN apk add --update --no-cache \
-  docker-compose \
   py-pip \
-  python-dev \
+  python3-dev \
   libffi-dev \
   openssl-dev \
   gcc \
@@ -17,6 +16,15 @@ RUN apk add --update --no-cache \
   make \
   unzip \
   bash \
+  wget \
   curl
 
-ENTRYPOINT ["/usr/bin/docker-compose"]
+ENV DOCKER_CONFIG=/usr/local/lib/docker/cli-plugins
+
+RUN mkdir -p $DOCKER_CONFIG
+RUN curl -v -SL "https://github.com/docker/compose/releases/download/v2.18.1/docker-compose-linux-$(uname -m)" -o $DOCKER_CONFIG/docker-compose \
+    && chmod +x $DOCKER_CONFIG/docker-compose \
+    && docker compose version
+COPY ./docker-compose-shim /usr/local/bin/docker-compose
+
+ENTRYPOINT ["docker", "compose"]
