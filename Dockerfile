@@ -6,8 +6,6 @@
 #
 FROM golang:1.21.0-alpine3.18
 
-ARG SPIRE_RELEASE=1.6.3
-
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
       copyright='Copyright (c) 2020-2023: Intel Corporation'
 
@@ -23,6 +21,7 @@ RUN apk add --update --no-cache make git curl bash zeromq-dev libsodium-dev pkgc
     && ln -s /bin/touch /usr/bin/touch \
     && wget -O- -nv https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v${GOLANGCI_VERSION}
 
+RUN go install github.com/gotesttools/gotestfmt/v2/cmd/gotestfmt@latest
 
-COPY --from=ghcr.io/spiffe/spire-agent:${SPIRE_RELEASE} /opt/spire/bin/spire-agent /usr/local/bin
-COPY --from=ghcr.io/spiffe/spire-server:${SPIRE_RELEASE} /opt/spire/bin/spire-server /usr/local/bin
+COPY --from=ghcr.io/spiffe/spire-agent:1.6.3 /opt/spire/bin/spire-agent /usr/local/bin
+COPY --from=ghcr.io/spiffe/spire-server:1.6.3 /opt/spire/bin/spire-server /usr/local/bin
