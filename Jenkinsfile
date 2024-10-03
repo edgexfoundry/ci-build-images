@@ -1,5 +1,6 @@
 //
 // Copyright (c) 2020-2023 Intel Corporation
+// Copyright (c) 2024 IOTech Ltd
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +21,6 @@ edgeXBuildDocker (
     dockerImageName: 'edgex-golang-base',
     dockerNamespace: 'edgex-devops',
     dockerNexusRepo: 'snapshots',
-    dockerTags: ["1.21-alpine", "1.21-alpine3.17"],
-    releaseBranchOverride: 'golang-1.21'
+    dockerTags: ["1.23-alpine", "1.23-alpine3.20"],
+    releaseBranchOverride: 'golang-1.23'
 )
