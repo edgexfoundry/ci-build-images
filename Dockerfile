@@ -1,16 +1,16 @@
 #
-# Copyright (c) 2020-2023
-# Intel Corporation
+# Copyright (c) 2020-2023 Intel Corporation
+# Copyright (c) 2024 IOTech Ltd
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-FROM golang:1.21-alpine3.18
+FROM golang:1.23-alpine3.20
 
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
       copyright='Copyright (c) 2020-2023: Intel Corporation'
 
 ENV HADOLINT_VERSION=2.12.0 \
-    GOLANGCI_VERSION=1.54.2
+    GOLANGCI_VERSION=1.61.0
 
 COPY ./.golangci.yml /etc/.golangci.yml
 
