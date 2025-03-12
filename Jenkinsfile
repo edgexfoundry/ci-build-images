@@ -20,6 +20,6 @@ edgeXBuildDocker ([
     dockerImageName: 'edgex-compose',
     dockerNamespace: 'edgex-devops',
     dockerNexusRepo: 'snapshots',
-    dockerTags: ["1.24.1"],
+    dockerTags: ["2.33.1"],
     releaseBranchOverride: 'edgex-compose'
 ])

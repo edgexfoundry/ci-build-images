@@ -1,7 +1,7 @@
-ARG DOCKER_VERSION=24
+ARG DOCKER_VERSION=28
 FROM docker:${DOCKER_VERSION} AS docker-cli
 
-FROM alpine:3.16
+FROM alpine:3.20
 
 COPY --from=docker-cli  /usr/local/bin/docker   /usr/local/bin/docker
 
@@ -22,7 +22,7 @@ RUN apk add --update --no-cache \
 ENV DOCKER_CONFIG=/usr/local/lib/docker/cli-plugins
 
 RUN mkdir -p $DOCKER_CONFIG
-RUN curl -v -SL "https://github.com/docker/compose/releases/download/v2.18.1/docker-compose-linux-$(uname -m)" -o $DOCKER_CONFIG/docker-compose \
+RUN curl -v -SL "https://github.com/docker/compose/releases/download/v2.33.1/docker-compose-linux-$(uname -m)" -o $DOCKER_CONFIG/docker-compose \
     && chmod +x $DOCKER_CONFIG/docker-compose \
     && docker compose version
 COPY ./docker-compose-shim /usr/local/bin/docker-compose
