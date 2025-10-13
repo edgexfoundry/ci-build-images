@@ -1,8 +1,10 @@
-version: "2"
-
 run:
   # timeout for analysis, e.g. 30s, 5m, default is 1m
   timeout: 120s
+
+issues:
+  exclude-files:
+    - doc.go
 
 linters:
   enable:
@@ -16,5 +18,5 @@ linters:
     - unconvert
     - misspell
     - goconst
-  paths:
-    - doc.go
+  disable:
+    - gosimple

@@ -10,7 +10,7 @@ LABEL license='SPDX-License-Identifier: Apache-2.0' \
       copyright='Copyright (c) 2020-2023: Intel Corporation'
 
 ENV HADOLINT_VERSION=2.14.0 \
-    GOLANGCI_VERSION=2.5.0
+    GOLANGCI_VERSION=1.64.8
 
 COPY ./.golangci.yml /etc/.golangci.yml
 
