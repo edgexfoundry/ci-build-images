@@ -1,22 +1,26 @@
-run:
-  # timeout for analysis, e.g. 30s, 5m, default is 1m
-  timeout: 120s
-
-issues:
-  exclude-files:
-    - doc.go
-
+version: "2"
 linters:
   enable:
-    - govet
-    - errcheck
-    - staticcheck
-    - unused
-    - ineffassign
-    - typecheck
-    - unparam
-    - unconvert
-    - misspell
     - goconst
-  disable:
-    - gosimple
+    - misspell
+    - unconvert
+    - unparam
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - doc.go
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
