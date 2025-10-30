@@ -1,15 +1,16 @@
 #
 # Copyright (c) 2019-2022 Intel Corporation
-# Copyright (c) 2024 IOTech Ltd
+# Copyright (c) 2024-2025 IOTech Ltd
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-FROM golang:1.23-alpine3.20
+FROM golang:1.25-alpine3.22
 
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
     copyright='Copyright (c) 2019-2022: Intel'
 
-ARG SNYK_VERSION=1.1293.1
+# Retrieve the latest Snyk version from: https://github.com/snyk/cli/releases
+ARG SNYK_VERSION=1.1300.2
 ENV SNYK_VERSION=${SNYK_VERSION}
 
 COPY --from=docker:latest /usr/local/bin/docker /usr/local/bin/docker
